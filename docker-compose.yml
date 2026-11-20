@@ -1,0 +1,37 @@
+# Run everything locally:  docker compose up --build
+# Frontend -> http://localhost:5173   Backend -> http://localhost:5000   Swagger -> http://localhost:5000/api/docs
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on: [mongo]
+    ports: ["5000:5000"]
+    environment:
+      PORT: 5000
+      NODE_ENV: development
+      MONGO_URI: mongodb://mongo:27017/brewbites
+      JWT_SECRET: ${JWT_SECRET:-local_dev_secret_change_me_please_1234567890}
+      FRONTEND_URL: http://localhost:5173
+      ADMIN_NAME: ${ADMIN_NAME:-Cafe Admin}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    # Seed the admin + menu once:  docker compose exec backend node seed.js
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:5000/api
+        VITE_QR_MENU_URL: http://localhost:5173/menu?source=qr
+    restart: unless-stopped
+    depends_on: [backend]
+    ports: ["5173:80"]
+
+volumes:
+  mongo_data:
