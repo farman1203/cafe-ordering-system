@@ -4,10 +4,10 @@ A full-stack MERN application where customers scan a **table QR code**, browse t
 
 | | |
 |---|---|
-| **Live frontend** | `<add your Vercel URL here>` |
-| **Live backend** | `<add your Render URL here>` |
-| **Swagger docs** | `<your Render URL>/api/docs` |
-| **GitHub repo** | `<add your repository URL here>` |
+| **Live frontend** | `` |
+| **Live backend** | `` |
+| **Swagger docs** | `` |
+| **GitHub repo** | `` |
 
 ---
 
@@ -68,10 +68,8 @@ cafe-ordering-system/
 └── README.md
 ```
 
-## 4. Prerequisites
-Node.js **18+** (20 recommended), npm, a free MongoDB Atlas account, Git. Docker only for the bonus setup.
 
-## 5. MongoDB Atlas setup
+## 4. MongoDB Atlas setup
 1. Create a free **M0** cluster at <https://cloud.mongodb.com>.
 2. **Database Access** → add a database user (username + strong password).
 3. **Network Access** → add IP `0.0.0.0/0` (needed for Render's changing IPs; keep a strong DB password).
@@ -79,7 +77,7 @@ Node.js **18+** (20 recommended), npm, a free MongoDB Atlas account, Git. Docker
    `mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/brewbites?retryWrites=true&w=majority`
    (URL-encode special characters in the password.)
 
-## 6. Local setup
+## 5. Local setup
 
 ### Backend
 ```bash
@@ -124,11 +122,11 @@ npm run dev                 # http://localhost:5173
 
 Generate a JWT secret: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
 
-## 7. Admin account (seed)
+## 6. Admin account (seed)
 There is **no default password in the code**. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` (min 8 chars, not the placeholder) in `backend/.env`, then run `npm run seed`. Re-running updates the admin's password. Sign in at `/admin/login`.
 `npm run seed:reset` wipes and re-creates the sample menu (26 items, 8 categories).
 
-## 8. API endpoints
+## 7. API endpoints
 Base: `/api` · 🔒 = `Authorization: Bearer <token>`
 
 | Method | Endpoint | Description |
@@ -151,17 +149,17 @@ Base: `/api` · 🔒 = `Authorization: Bearer <token>`
 **Revenue/sales** = Completed orders only.
 Responses: `{ success, message?, data }`; errors: `{ success:false, message, errors? }`.
 
-## 9. Swagger
+## 8. Swagger
 Open **`http://localhost:5000/api/docs`** (or `<render-url>/api/docs`). Call `POST /admin/login`, copy the `token`, click **Authorize**, paste it, and the 🔒 endpoints become testable.
 
-## 10. QR code ordering
+## 9. QR code ordering
 1. Set `VITE_QR_MENU_URL` to your **deployed** frontend, e.g. `https://your-app.vercel.app/menu?source=qr`.
 2. Admin → **QR Codes** → choose number of tables → **Download** each PNG → print and place on tables.
 3. A table QR encodes `https://your-app.vercel.app/menu?source=qr&table=T05`.
 4. On scan: menu opens, table `T05` is saved (survives navigation/refresh), welcome popup asks for mobile number, checkout is pre-filled.
 5. **Test locally on a phone:** run `npm run dev` (Vite exposes your LAN IP), set `VITE_QR_MENU_URL=http://<your-LAN-IP>:5173/menu?source=qr`, add that IP origin to backend `FRONTEND_URL`, scan with your phone on the same Wi-Fi. Or just open `/menu?source=qr&table=T05` in a browser.
 
-## 11. Docker (bonus)
+## 10. Docker (bonus)
 ```bash
 # optional: create a root .env with JWT_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
 docker compose up --build
@@ -170,7 +168,7 @@ docker compose exec backend node seed.js      # once, to create admin + menu
 Frontend → http://localhost:5173 · Backend → http://localhost:5000 · Swagger → http://localhost:5000/api/docs.
 Uses a local MongoDB container (`mongodb://mongo:27017/brewbites`). Normal `npm` workflow is untouched.
 
-## 12. Deployment
+## 11. Deployment
 
 ### Backend → Render
 1. Push the repo to GitHub.
@@ -189,7 +187,7 @@ Uses a local MongoDB container (`mongodb://mongo:27017/brewbites`). Normal `npm`
 ### Keep-alive / cold starts
 `cron/keepAlive.js` pings `/api/health` every 14 minutes (production only). **Limitation:** Render's free tier sleeps after ~15 min of inactivity; a cron *inside* the server cannot wake a server that is already asleep, and it stops when the instance is suspended. Free instances therefore may still sleep. For reliable uptime use an **external monitor** (UptimeRobot, cron-job.org, BetterStack) hitting `https://<render-url>/api/health` every 5–10 minutes, or a paid Render instance. Also be aware of Render's monthly free-hours limit.
 
-## 13. GitHub submission checklist
+## 12. GitHub submission checklist
 - [ ] `.env` files are **not** committed (`git status` should not list them; `.gitignore` covers them)
 - [ ] `.env.example` present in `backend/` and `frontend/`
 - [ ] README placeholders (live URLs, repo URL) filled in
@@ -198,7 +196,7 @@ Uses a local MongoDB container (`mongodb://mongo:27017/brewbites`). Normal `npm`
 - [ ] Admin seeded on production DB; admin password is not the example one
 - [ ] Place a test order end-to-end on the **deployed** site, and confirm it in the admin panel
 
-## 14. Screenshots
+## 13. Screenshots
 Add images to `docs/screenshots/` using these names, then they render here:
 
 | Page | File |
@@ -219,7 +217,7 @@ Add images to `docs/screenshots/` using these names, then they render here:
 ![Home](docs/screenshots/01-home.png)
 ```
 
-## 15. Known limitations
+## 14. Known limitations
 - No online payment — orders are **Pay at Counter** (by design for the assessment).
 - Customers are identified only by order ID + phone (no OTP verification); anyone knowing both can view that order.
 - Order list is capped at 200 per request in the admin UI (API supports pagination).
@@ -228,5 +226,5 @@ Add images to `docs/screenshots/` using these names, then they render here:
 - Single admin role; no admin management screen (create admins via seed).
 - Render free tier cold starts (see Keep-alive section).
 
-## 16. Future improvements
+## 15. Future improvements
 WebSocket/SSE live order updates, SMS/WhatsApp order notifications, UPI/online payments, image upload (Cloudinary), kitchen display screen, multi-role staff accounts, discount coupons, analytics (top items, peak hours), automated tests (Jest + Supertest, Playwright).
