@@ -55,7 +55,6 @@ export default function Home() {
           </div>
           <div className="hero__media">
             <FoodImage src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="Latte with latte art" />
-            <div className="hero__badge"><QrCode size={22} /><div><strong>Scan. Order. Enjoy.</strong><span>No app, no login</span></div></div>
           </div>
         </div>
       </section>

@@ -30,9 +30,9 @@ export default function Footer() {
         <div>
           <h4>Visit us</h4>
           <ul className="footer__contact">
-            <li><MapPin size={16} /> 12 Alkapuri Main Road, Vadodara, Gujarat 390007</li>
-            <li><Phone size={16} /> +91 98765 43210</li>
-            <li><Mail size={16} /> hello@brewandbites.example</li>
+            <li><MapPin size={16} /> Anand, Gujarat</li>
+            <li><Phone size={16} /> +91 99999 99999</li>
+            <li><Mail size={16} /> hello@gmail.com</li>
             <li>Open daily · 8:00 AM – 11:00 PM</li>
           </ul>
         </div>
