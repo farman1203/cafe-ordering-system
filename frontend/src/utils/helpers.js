@@ -13,7 +13,8 @@ export const normalizePhone = (value) => {
 export const isValidPhone = (value) => /^[6-9]\d{9}$/.test(normalizePhone(value));
 
 // Which QR base URL to use: env value, or the current site if env is missing
-export const getQrBaseUrl = () => import.meta.env.QR_MENU_URL;
+export const getQrBaseUrl = () =>
+  import.meta.env.VITE_QR_MENU_URL || window.location.origin;
 
 export const buildTableUrl = (table) => {
   const url = new URL(getQrBaseUrl(), window.location.origin);
@@ -21,4 +22,5 @@ export const buildTableUrl = (table) => {
   if (table) url.searchParams.set('table', table);
   return url.toString();
 };
+
 
