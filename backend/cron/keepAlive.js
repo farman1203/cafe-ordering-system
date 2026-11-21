@@ -3,7 +3,7 @@ const env = require('../config/env');
 
 // Pings our own /api/health every 14 minutes (Render free tier sleeps after ~15 min idle).
 // NOTE: this runs INSIDE the server. If the instance is already asleep this code is asleep too,
-// so it cannot wake it up. Use an external monitor (e.g. UptimeRobot / cron-job.org) for that.
+// so it cannot wake it up. Use an external monitor for that.
 module.exports = function startKeepAlive() {
   if (!env.KEEP_ALIVE_URL) {
     console.log('[keep-alive] KEEP_ALIVE_URL not set - cron disabled');
