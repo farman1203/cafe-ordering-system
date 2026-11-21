@@ -130,7 +130,6 @@ cafe-app/
 ### Backend (`backend/.env.example`)
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb+srv://MongoDB:lOWZAHw3aVK4DKAR@complete-backend.qgemkqe.mongodb.net/cafe_new
 FRONTEND_URL=https://cafe-ordering-system-three.vercel.app/
 
 ### Frontend (`frontend/.env.example`)
