@@ -18,23 +18,23 @@ A full-stack cafe ordering app built with the **MERN stack**. Customers scan a Q
 
 | Phone number pop-up | Menu |
 |---|---|
-| ![Phone modal](screenshots/01-phone-modal.jpeg) | ![Menu](screenshots/02-menu.jpeg) |
+| ![Phone modal](docs/screenshots/01-phone-modal.jpeg) | ![Menu](docs/screenshots/02-menu.png) |
 
 | Search / filter / sort | Cart |
 |---|---|
-| ![Filters](screenshots/03-filters.jpeg) | ![Cart](screenshots/04-cart.jpeg) |
+| ![Filters](docs/screenshots/03-filters.png) | ![Cart](docs/screenshots/04-cart.png) |
 
 | Checkout | Order success |
 |---|---|
-| ![Checkout](screenshots/05-checkout.jpeg) | ![Success](screenshots/06-order-success.jpeg) |
+| ![Checkout](docs/screenshots/05-checkout.png) | ![Success](docs/screenshots/06-order-success.png) |
 
 | QR codes | Swagger docs |
 |---|---|
-| ![QR](screenshots/07-qr.jpeg) | ![Swagger](screenshots/08-swagger.jpeg) |
+| ![QR](docs/screenshots/07-qr.png) | ![Swagger](docs/screenshots/08-swagger.png) |
 
 | MongoDB Atlas data |
 |---|
-| ![Atlas](screenshots/09-atlas.jpeg) |
+| ![Atlas](docs/screenshots/09-atlas.png) |
 
 ## ✨ Features
 
