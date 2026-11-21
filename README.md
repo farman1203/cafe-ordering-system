@@ -7,10 +7,10 @@ A full-stack cafe ordering app built with the **MERN stack**. Customers scan a Q
 | | Link |
 |---|---|
 | **Frontend (Vercel)** | https://cafe-ordering-system-three.vercel.app |
-| **Backend API (Render)** | `https://<your-backend>.onrender.com` |
-| **API Docs (Swagger)** | `https://<your-backend>.onrender.com/api/docs` |
-| **Health check** | `https://<your-backend>.onrender.com/health` |
-| **GitHub** | `https://github.com/<your-username>/<your-repo>` |
+| **Backend API (Render)** | https://cafe-ordering-system-n7t9.onrender.com |
+| **API Docs (Swagger)** | https://cafe-ordering-system-n7t9.onrender.com/api/docs/ |
+| **Health check** | https://cafe-ordering-system-n7t9.onrender.com/api/health |
+| **GitHub** | https://github.com/farman1203/cafe-ordering-system/ |
 
 > ⏳ The backend runs on Render's free tier. If it was idle, the very first request can take 30-50 seconds. A cron job pings it every 10 minutes to reduce this (see [Keep-Alive Cron](#-keep-alive-cron-job)).
 
@@ -66,13 +66,13 @@ A full-stack cafe ordering app built with the **MERN stack**. Customers scan a Q
 
 | Layer | Technology |
 |---|---|
-| Frontend | React (Vite), React Router, Axios, Context API + useReducer |
+| Frontend | React (Vite), React Router, Axios, Context API |
 | Backend | Node.js, Express.js |
 | Database | MongoDB Atlas, Mongoose |
 | Docs | Swagger (swagger-jsdoc + swagger-ui-express) |
 | Validation | express-validator |
 | Deployment | Vercel (frontend), Render (backend) |
-| Other | node-cron, Docker, Docker Compose |
+| Other | node-cron |
 
 ## 🏗️ Architecture
 
@@ -104,7 +104,7 @@ cafe-app/
 │   │   ├── app.js
 │   │   └── server.js
 │   ├── .env.example
-│   └── Dockerfile
+│  
 ├── frontend/
 │   ├── src/
 │   │   ├── api/           # axios client
@@ -114,10 +114,8 @@ cafe-app/
 │   │   ├── pages/
 │   │   └── utils/
 │   ├── .env.example
-│   ├── Dockerfile
 │   └── vercel.json
 ├── screenshots/
-├── docker-compose.yml
 └── README.md
 ```
 
@@ -127,75 +125,18 @@ cafe-app/
 - Node.js 18+ and npm
 - A MongoDB Atlas cluster (free M0) or a local MongoDB
 
-### 1. Clone
-
-```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
-```
-
-### 2. Backend
-
-```bash
-cd backend
-npm install
-cp .env.example .env     # then fill in MONGO_URI and CLIENT_URL
-npm run seed             # inserts sample menu items
-npm run dev              # http://localhost:5000
-```
-
-Swagger docs: http://localhost:5000/api/docs
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-cp .env.example .env     # set VITE_API_URL
-npm run dev              # http://localhost:5173
-```
-
-### 4. Open the app
-
-Visit `http://localhost:5173/?table=5` to simulate scanning the QR code for table 5.
-
-## 🐳 Run with Docker (single command)
-
-Requires Docker Desktop. From the project root:
-
-```bash
-docker compose up --build
-```
-
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:5000 |
-| Swagger | http://localhost:5000/api/docs |
-
-This starts MongoDB, the backend and the frontend together. The menu is seeded automatically on the first run (only if the database is empty).
-
-To stop: `docker compose down` (add `-v` to also delete the database volume).
-
 ## 🔐 Environment Variables
 
 ### Backend (`backend/.env.example`)
-
-| Variable | Description | Example |
-|---|---|---|
-| `PORT` | Server port (Render sets this automatically) | `5000` |
-| `NODE_ENV` | `development` or `production` | `production` |
-| `MONGO_URI` | MongoDB Atlas connection string | `mongodb+srv://user:pass@cluster.mongodb.net/cafe` |
-| `CLIENT_URL` | Allowed frontend origin(s) for CORS, comma separated, no trailing slash | `https://cafe-ordering-system-three.vercel.app` |
-| `ADMIN_API_KEY` | *(optional)* if set, admin routes require header `x-api-key` | `my-secret-key` |
-| `RENDER_EXTERNAL_URL` | Set automatically by Render; used by the keep-alive cron | `https://<your-backend>.onrender.com` |
+PORT=5000
+NODE_ENV=development
+MONGO_URI=mongodb+srv://MongoDB:lOWZAHw3aVK4DKAR@complete-backend.qgemkqe.mongodb.net/cafe_new
+FRONTEND_URL=https://cafe-ordering-system-three.vercel.app/
 
 ### Frontend (`frontend/.env.example`)
+VITE_API_URL=https://cafe-ordering-system-n7t9.onrender.com/api
+VITE_QR_MENU_URL=https://cafe-ordering-system-three.vercel.app/
 
-| Variable | Description | Example |
-|---|---|---|
-| `VITE_API_URL` | Backend API base URL (must end with `/api`) | `https://<your-backend>.onrender.com/api` |
-| `VITE_QR_MENU_URL` | Public URL encoded inside the QR codes | `https://cafe-ordering-system-three.vercel.app` |
 
 > ⚠️ Vite only exposes variables that start with `VITE_`, and bakes them in at **build time**. After changing them on Vercel, redeploy.
 
@@ -253,7 +194,7 @@ Order status values: `pending`, `preparing`, `ready`, `completed`, `cancelled`.
 
 ## 📱 QR Code Flow
 
-1. Each table has a QR code that encodes `https://<frontend-url>/?table=<number>`.
+1. Each table has a QR code that encodes `https://cafe-ordering-system-three.vercel.app/?source=qr&table=T01`.
 2. Scanning opens the menu; the table number is read from the URL and saved.
 3. On the first visit a pop-up asks for a **phone number** (validated as a 10 digit Indian mobile number). It is stored in `localStorage`, so there is **no login or JWT**.
 4. The customer builds a cart and checks out. The phone number and table number are attached to the order.
@@ -266,7 +207,7 @@ QR codes are generated in the app's QR page, and the encoded URL comes from `VIT
 Render's free tier puts a service to sleep after about 15 minutes without traffic, which makes the next request slow (cold start). Two layers are used:
 
 1. **In-app cron** (`node-cron`, `backend/src/jobs/keepAlive.js`): every 10 minutes the server calls its own `/health` endpoint. It only runs when `RENDER_EXTERNAL_URL` is set (production).
-2. **External cron** ([cron-job.org](https://cron-job.org)): pings `https://<your-backend>.onrender.com/health` every 10 minutes.
+2. **External cron** ([cron-job.org](https://cron-job.org)): pings `https://cafe-ordering-system-n7t9.onrender.com/api/health` every 10 minutes.
 
 **Why both?** A self-ping can't wake a server that is already asleep, because the timer runs inside the sleeping process. The external pinger is the reliable one; the in-app cron is an extra safety net.
 
@@ -282,13 +223,10 @@ Render's free tier puts a service to sleep after about 15 minutes without traffi
 
 - OTP verification of the phone number
 - Real-time order updates for staff and customers with WebSockets
-- Admin dashboard with authentication (JWT) for menu and order management
 - Online payments (Razorpay / Stripe)
 - Image upload for menu items (Cloudinary)
-- Redis caching for the menu
-- Automated tests (Jest + Supertest) and a CI pipeline
 
 ## 👤 Author
 
 **<Your Name>**
-GitHub: [@<your-username>](https://github.com/<your-username>) · Email: <your-email>
+GitHub:(https://github.com/farman1203) · Email: <ansarifarman1203@gmail.com>
