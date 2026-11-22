@@ -60,7 +60,6 @@ A full-stack cafe ordering app built with the **MERN stack**. Customers scan a Q
 **DevOps**
 - Frontend on Vercel, backend on Render, database on MongoDB Atlas
 - Keep-alive cron job for the Render backend
-- Docker Compose setup to run everything locally with one command
 
 ## 🧰 Tech Stack
 
